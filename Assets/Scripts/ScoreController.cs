@@ -2,61 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-private int currentScore = 0;
-
-private void Start()
+public class ScoreController : MonoBehaviour
 {
-    // reset
-    currentScore = 0;
-}
+    [Header("Score Highlight")]
+    public int scoreHighlightRange;
+    public CharacterSoundController sound;
 
-public float GetCurrentScore()
-{
-    return currentScore;
-}
+    private int currentScore = 0;
+    private int lastScoreHighlight = 0;
 
-public void IncreaseCurrentScore(int increment)
-{
-    currentScore += increment;
-}
-
-public void FinishScoring()
-{
-    // set high score
-    if (currentScore > ScoreData.highScore)
+    private void Start()
     {
-        ScoreData.highScore = currentScore;
+        // reset
+        currentScore = 0;
+        lastScoreHighlight = 0;
     }
-}
 
-[Header("Scoring")]
-public ScoreController score;
-public float scoringRatio;
-private float lastPositionX;
-
-private void Update()
-{
-    // read input
-    if (Input.GetMouseButtonDown(0))
+    public float GetCurrentScore()
     {
-        if (isOnGround)
-        {
-            isJumping = true;
+        return currentScore;
+    }
 
-            sound.PlayJump();
+    public void IncreaseCurrentScore(int increment)
+    {
+        currentScore += increment;
+
+        if (currentScore - lastScoreHighlight > scoreHighlightRange)
+        {
+            sound.PlayScoreHighlight();
+            lastScoreHighlight += scoreHighlightRange;
         }
     }
 
-    // change animation
-    anim.SetBool("isOnGround", isOnGround);
-
-    // calculate score
-    int distancePassed = Mathf.FloorToInt(transform.position.x - lastPositionX);
-    int scoreIncrement = Mathf.FloorToInt(distancePassed / scoringRatio);
-
-    if (scoreIncrement > 0)
+    public void FinishScoring()
     {
-        score.IncreaseCurrentScore(scoreIncrement);
-        lastPositionX += distancePassed;
+        // set high score
+        if (currentScore > ScoreData.highScore)
+        {
+            ScoreData.highScore = currentScore;
+        }
     }
 }

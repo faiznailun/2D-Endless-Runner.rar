@@ -1,9 +1,17 @@
-﻿
-private void Update()
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class UIGameOverController : MonoBehaviour
 {
-    if (Input.GetMouseButtonDown(0))
+    // Update is called once per frame
+    private void Update()
     {
-        // reload
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (Input.GetMouseButtonDown(0))
+        {
+            // reload
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }

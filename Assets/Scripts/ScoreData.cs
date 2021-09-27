@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class ScoreData
+﻿public static class ScoreData
 {
     public static int highScore;
 }
-
-private int currentScore = 0;
